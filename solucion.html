@@ -187,15 +187,17 @@
 				</script>
 				<div class="panel panel-default">
 			    		<div id="hdgFormulae" class="panel-heading">
-                                                Select formula to display: 
+                                                <span id="displayedFormulaSelectPrompt">Select a formula to display:</span> 
 						<div class="btn-group">
     							<button type="button" id="btnSony" class="btn btn-primary dropdown-toggle" data-toggle=dropdown>
     								<span id="displayedFormulaName">Select a formula to display</span>
         							<span class="caret"></span>
     							</button>
     							<ul class="dropdown-menu" role="menu">
-      								<li><a href="javascript:void(0);" onclick="displaySumOfMintermsBtnHandler();">Sum of minterms</a></li>
-      								<li><a href="javascript:void(0);" onclick="displaySumOfMaxtermsBtnHandler();">Sum of maxterms</a></li>
+      								<li><a href="javascript:void(0);" id="liSumOfMinterms" onclick="displaySumOfMintermsBtnHandler();">Sum of minterms</a></li>
+      								<li><a href="javascript:void(0);" id="liSumOfMaxterms" onclick="displaySumOfMaxtermsBtnHandler();">Product of maxterms</a></li>
+								<li><a href="javascript:void(0);" id="liSumForm" onclick="displaySumFormBtnHandler();">Standard sum of products</a></li>
+								<li><a href="javascript:void(0);" id="liProdForm" onclick="displayProductFormBtnHandler();">Standard product of sums</a></li>
     							</ul>
   						</div>
 					</div>

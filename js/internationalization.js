@@ -27,7 +27,8 @@ var internationalizableTags =
 	"hdgOutputCol", "btnExternalSvc", "hdgCircuit", "subHdgCircuit",
 	"titlePrompt", "hdrLinkageModal", "hdrSysIoPanel", "hdrRealIoPanel",
 	"btnUnlinkedVHDL", "btnLinkedVHDL","linkageModalCloseBtn",
-	"errorModalCloseBtn"
+	"errorModalCloseBtn", "displayedFormulaName", "liSumOfMinterms",
+	"liSumOfMaxterms", "liSumForm", "liProdForm", "displayedFormulaSelectPrompt"
 ];
 
 function localizeAll() {

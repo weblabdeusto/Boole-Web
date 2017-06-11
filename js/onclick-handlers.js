@@ -35,12 +35,25 @@ function callExternalServiceHandler() {
 }
 
 function displaySumOfMintermsBtnHandler() {
-    document.getElementById("displayedFormulaName").innerHTML = "Sum of minterms";
+    document.getElementById("displayedFormulaName").innerHTML = _("Sum of minterms");
     toggleDisplayedFormulaToSumOfMinterms();
     reprocessDisplayedFormulae(truthTable);
 }
 function displaySumOfMaxtermsBtnHandler() {
-    document.getElementById("displayedFormulaName").innerHTML = "Product of maxterms";
+    document.getElementById("displayedFormulaName").innerHTML = _("Product of maxterms");
     toggleDisplayedFormulaToProductOfMaxterms();
     reprocessDisplayedFormulae(truthTable);
 }
+
+function displaySumFormBtnHandler() {
+    document.getElementById("displayedFormulaName").innerHTML = _("Sum form");
+    toggleDisplayedFormulaToSumForm();
+    reprocessDisplayedFormulae(truthTable);
+}
+
+function displayProductFormBtnHandler() {
+    document.getElementById("displayedFormulaName").innerHTML = _("Sum form");
+    toggleDisplayedFormulaToProductForm();
+    reprocessDisplayedFormulae(truthTable);
+}
+

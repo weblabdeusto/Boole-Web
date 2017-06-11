@@ -668,6 +668,89 @@ function generateAddSumOfMintermsFormulae(truthTable) {
     }
 }
 
+function generateAddSumForm(truthTable) {
+    //We'll need to produce one sum of products per declared output
+    for( var i = 0; i < gDeclaredOutputCount; i++ ) {
+        //Start by checking that each output column of the truth table is defined.
+        //as a sum of minterms cannot be produced if an output is undefined for a
+        //particular configuration
+
+        var thisSOPIsDefined = true;
+        for(var j = 0 ; j < truthTable.length; j++) {
+            if(typeof truthTable[j][gDeclaredInputCount + i] == "undefined" ) {
+                thisSOPIsDefined = false;
+                break;
+            }
+        }
+
+        //If we cannot calculate this sum of minterms, then proceed to the next one
+        if(!thisSOPIsDefined) continue;
+
+        sumOfMinterms = "";
+        sumOfMinterms += ("$" + gOutputHashmap[i] + " = \\sum ( ");
+        for(var j = 0; j < truthTable.length; j++) {
+        if(truthTable[j][gDeclaredInputCount+i] == "1"){
+                var thisMinterm = "m_{" + j + "} ";
+
+                sumOfMinterms += thisMinterm;
+                if( j < truthTable.length-1){
+                   sumOfMinterms += ",";
+                }
+            }
+        }
+        
+        if(sumOfMinterms.charAt(sumOfMinterms.length - 1) == ","){
+            sumOfMinterms = sumOfMinterms.substring(0, sumOfMinterms.length - 1);
+        }
+
+        sumOfMinterms += " ) $";
+        console.log("One of the sums of minterms is " + sumOfMinterms);
+        addFormulaToPage(sumOfMinterms)
+    }
+}
+
+function generateAddProductForm(truthTable) {
+    //We'll need to produce one product of sums per declared output
+    for( var i = 0; i < gDeclaredOutputCount; i++ ) {
+        //Start by checking that each output column of the truth table is defined.
+        //as a sum of maxterms cannot be produced if an output is undefined for a
+        //particular configuration
+
+        var thisSOPIsDefined = true;
+        for(var j = 0 ; j < truthTable.length; j++) {
+            if(typeof truthTable[j][gDeclaredInputCount + i] == "undefined" ) {
+                thisSOPIsDefined = false;
+                break;
+            }
+        }
+
+        //If we cannot calculate this sum of maxterms, then proceed to the next one
+        if(!thisSOPIsDefined) continue;
+
+        sumOfMaxterms = "";
+        sumOfMaxterms += ("$" + gOutputHashmap[i] + " = \\prod ( ");
+        for(var j = 0; j < truthTable.length; j++) {
+        if(truthTable[j][gDeclaredInputCount+i] == "0"){
+                var thisMaxterm = "M_{" + j + "} ";
+
+                sumOfMaxterms += thisMaxterm;
+                if( j < truthTable.length-1){
+                   sumOfMaxterms += ",";
+                }
+            }
+        }
+        
+        if(sumOfMaxterms.charAt(sumOfMaxterms.length - 1) == ","){
+            sumOfMaxterms = sumOfMaxterms.substring(0, sumOfMaxterms.length - 1);
+        }
+
+        sumOfMaxterms += " ) $";
+        console.log("One of the sums of maxterms is " + sumOfMaxterms);
+        addFormulaToPage(sumOfMaxterms)
+    }
+}
+
+
 function toggleTruthValue(element) {
     var newValue;
     //alert("InnerHTML: " + element.innerHTML);
@@ -1116,4 +1199,12 @@ function toggleDisplayedFormulaToSumOfMinterms() {
 
 function toggleDisplayedFormulaToProductOfMaxterms() {
     gFormulaCreatingFunction = generateAddProductOfMaxtermsFormulae;
+}
+
+function toggleDisplayedFormulaToSumForm() {
+    gFormulaCreatingFunction = generateAddSumForm;
+}
+
+function toggleDisplayedFormulaToProductForm() {
+    gFormulaCreatingFunction = generateAddProductForm;
 }
