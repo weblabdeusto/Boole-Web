@@ -199,7 +199,7 @@ function PetrickMethod()
       var orArray = andArray[i];
       for (var j = 0; j < orArray.length; j++) {
         if (!first)
-          str += " &or; ";
+          str += " + ";
         var monom = orArray[j];
         for (var k in monom) {
           str += "<i>p</i><sub><small>"+ monom[k] + "</small></sub>";
@@ -802,8 +802,8 @@ function QuineMcCluskeyDataCtrl() {
       var firstL = true;
       for (var i = 0; i < this.minimalTermPrims.length; i++) {
         if (!firstL) {
-          this.minimalTerm += " &or; ";
-          this.coloredMinimalTerm += " &or; ";
+          this.minimalTerm += " + ";
+          this.coloredMinimalTerm += " + ";
         }
         this.minimalTerm += this.minimalTermPrims[i].termString;
         this.coloredMinimalTerm += this.minimalTermPrims[i].coloredTermString;

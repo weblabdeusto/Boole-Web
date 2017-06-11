@@ -311,7 +311,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
   this.inputNames = [];
   //debugger;
   for(var i = 0; i< Object.keys(kMapInputNames).length; i++){
-    this.inputNames[i] = kMapInputNames[Object.keys(kMapInputNames).length - i - 1];
+    this.inputNames[i] = kMapInputNames[i];
   }
   this.init = function () {
 
@@ -423,6 +423,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
     var idx = getKMapIndexByInput(ordinal, inputCount);
     data.setFuncData(idx, LUT1[value]);
     console.log("Set item " + idx + " to value "+ LUT1[value]);
+    that.update();
   };
 
   this.setUpdateSolutionOnChange = function (updateOnChange) {

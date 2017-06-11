@@ -1,5 +1,6 @@
 var gKarnaughMapObjects = [];
 var gBooleanExpressionStrings = [];
+var gFormulaCreatingFunction = function donothing(){};
 var gLastError;
 
 
@@ -49,7 +50,7 @@ function createAndPopulateKMaps() {
         interval: false
     });
 
-    for(var i = gDefinedOutputCount - 1; i >=0 ; i--) {
+    for(var i = 0; i<gDefinedOutputCount; i++) {
         //createAndPopulateSingleKMap(kMapSlider, gOutputHashmap[i]);
 	var newDiv = document.createElement('div');
 	var newP = document.createElement('p');
@@ -546,21 +547,79 @@ function clearAllFormulae( ) {
     $("#formulaeContainer").empty();
 }
 
-function addSOPToPage(sop) {
+function addFormulaToPage(formula) {
     var targetDiv = document.getElementById("formulaeContainer");
     var formulaDiv = document.createElement('div');
     //formulaDiv.className = "text-center"
-    formulaDiv.innerHTML = sop;
+    formulaDiv.innerHTML = formula;
     targetDiv.appendChild(formulaDiv);
 
     //Instruct MathJax to typeset the whole page
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,"formulaeContainer"]);
+
+}
+
+function reprocessDisplayedFormulae(truthtable) {
+    //Begin by clearing outdated formulae
+    clearAllFormulae();
+    gFormulaCreatingFunction(truthtable);
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
 
-function reEvaluateSumOfProductsFormulae(truthTable) {
-    //Begin by clearing all (possibly outdated) formulae
-    clearAllFormulae();    
+function generateAddProductOfMaxtermsFormulae(truthtable) {
+    //We'll need to produce one sum of products per declared output
+    for( var i = 0; i < gDeclaredOutputCount; i++ ) {
+        //Start by checking that each output column of the truth table is defined.
+	//as a sum of minterms cannot be produced if an output is undefined for a
+	//particular configuration
 
+        var thisPOSIsDefined = true;
+        for(var j = 0 ; j < truthTable.length; j++) {
+	    if(typeof truthTable[j][gDeclaredInputCount + i] == "undefined" ) {
+                thisPOSIsDefined = false;
+                break;
+            }
+        }
+
+	//If we cannot calculate this sum of minterms, then proceed to the next one
+        if(!thisPOSIsDefined) continue;
+
+        prodOfMaxterms = "";
+	prodOfMaxterms += ("$" + gOutputHashmap[i] + " = ");
+        for(var j = 0; j < truthTable.length; j++) {
+        if(truthTable[j][gDeclaredInputCount+i] == "0"){    
+                var thisMaxterm = "(";
+                for (var k = gDeclaredInputCount-1 ; k >= 0 ; k--) {
+                    var thisVar = gInputHashmap[gDeclaredInputCount-1-k];
+                        if( ( ( 1 << k ) & j ) != 0 ) {
+                            //Conjunctive clause not inverted
+                            thisMaxterm+=thisVar;
+                        }
+                        else {
+                            //Conjunctive clause is inverted
+                            thisMaxterm+=("\\overline{"+thisVar+"}");
+                        }
+                        if(k > 0){
+                            thisMaxterm+="+";
+                        }
+                }
+                thisMaxterm += ")";
+                prodOfMaxterms += thisMaxterm;
+                if( j < truthTable.length-1){
+                   prodOfMaxterms += "\\cdot ";
+                }
+            }
+        }
+        if(prodOfMaxterms.endsWith("\\cdot ")){      //If ended by \\cdot remove \\cdot
+            prodOfMaxterms = prodOfMaxterms.substring(0, prodOfMaxterms.length - "\\cdot".length - 1);
+        }
+        prodOfMaxterms += "$";
+        console.log("One of the products of maxterms is " + prodOfMaxterms);        
+        addFormulaToPage(prodOfMaxterms)
+    }
+}
+
+function generateAddSumOfMintermsFormulae(truthTable) {
     //We'll need to produce one sum of products per declared output
     for( var i = 0; i < gDeclaredOutputCount; i++ ) {
         //Start by checking that each output column of the truth table is defined.
@@ -605,7 +664,7 @@ function reEvaluateSumOfProductsFormulae(truthTable) {
         }
         sumOfMinterms += "$";
         console.log("One of the sums of minterms is " + sumOfMinterms);        
-        addSOPToPage(sumOfMinterms)
+        addFormulaToPage(sumOfMinterms)
     }
 }
 
@@ -621,7 +680,7 @@ function toggleTruthValue(element) {
     }
     truthTable[element.getAttribute("i")][element.getAttribute("j")] = newValue;
 
-    reEvaluateSumOfProductsFormulae(truthTable);
+    reprocessDisplayedFormulae(truthTable);
 }
 
 function tableCreate(){
@@ -695,7 +754,7 @@ function tableClearAll() {
 
     for (var i = 0; i < truthTable.length; i++){
         for(var j = gDeclaredInputCount; j<gDeclaredInputCount+gDeclaredOutputCount; j++){
-            truthTable[i][j] = "";
+            truthTable[i][j] = undefined;
         }
     }
 }
@@ -1047,4 +1106,14 @@ exports._test = {
     generateVHDLInputs: generateVHDLInputs,
     generateVHDLInouts: generateVHDLInouts,
     generateVHDLOutputs: generateVHDLOutputs
+}
+
+//gFormulaCreatingFunction
+
+function toggleDisplayedFormulaToSumOfMinterms() {
+    gFormulaCreatingFunction = generateAddSumOfMintermsFormulae;
+}
+
+function toggleDisplayedFormulaToProductOfMaxterms() {
+    gFormulaCreatingFunction = generateAddProductOfMaxtermsFormulae;
 }

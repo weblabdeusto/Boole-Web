@@ -157,18 +157,18 @@
 									<div class="text-center">
 										<div class="btn-group btn-group-justified">
 	    										<div class="btn-group">
-	  	    										<button id="btnFill0" onclick="tableFillAllZeroes()" type="button" class="btn btn-primary">0</button>
+	  	    										<button id="btnFill0" onclick="tableFillAllZeroesHandler()" type="button" class="btn btn-primary">0</button>
 	    										</div>
 	    										<div class="btn-group">
-										      		<button id="btnFill1" onclick="tableFillAllOnes()" type="button" class="btn btn-primary">1</button>
+										      		<button id="btnFill1" onclick="tableFillAllOnesHandler()" type="button" class="btn btn-primary">1</button>
 	    										</div>
 	    										<div class="btn-group">
-	      											<button id="btnFillX" onclick="tableFillAllIndeterminations()" type="button" class="btn btn-primary">X</button>
+	      											<button id="btnFillX" onclick="tableFillAllIndeterminationsHandler()" type="button" class="btn btn-primary">X</button>
 	    										</div>
 	  									</div>						
 										<div class="btn-group btn-group-justified">
 	    										<div class="btn-group">
-	      											<button id="btnClear" onclick="tableClearAll()" type="button" class="btn btn-primary">Clear table</button>
+	      											<button id="btnClear" onclick="tableClearAllHandler()" type="button" class="btn btn-primary">Clear table</button>
 	    										</div>
 	  									</div>
 									</div>
@@ -186,7 +186,19 @@
 				    });
 				</script>
 				<div class="panel panel-default">
-			    		<div id="hdgFormulae" class="panel-heading">Forma canonica</div>
+			    		<div id="hdgFormulae" class="panel-heading">
+                                                Select formula to display: 
+						<div class="btn-group">
+    							<button type="button" id="btnSony" class="btn btn-primary dropdown-toggle" data-toggle=dropdown>
+    								<span id="displayedFormulaName">Select a formula to display</span>
+        							<span class="caret"></span>
+    							</button>
+    							<ul class="dropdown-menu" role="menu">
+      								<li><a href="javascript:void(0);" onclick="displaySumOfMintermsBtnHandler();">Sum of minterms</a></li>
+      								<li><a href="javascript:void(0);" onclick="displaySumOfMaxtermsBtnHandler();">Sum of maxterms</a></li>
+    							</ul>
+  						</div>
+					</div>
 					<div id="formulaeContainer" class="panel-body" >
 					</div>
 				</div>

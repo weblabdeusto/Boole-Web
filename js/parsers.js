@@ -5,7 +5,7 @@ function ExprGenericParser(concreteParser) {
         var ret = [];
         //Some preprocessing
         //First get rid of spaces and adapt symbols:
-        expr = expr.replace(/\u2228/g, "|");//Logical disjunction
+        expr = expr.replace(/\u002B/g, "|");//Logical disjunction
         expr = expr.replace(/\u00B7/g, "&");//Logical conjunction
         expr = expr.replace(/ /g, "" );     //Spaces    
 
