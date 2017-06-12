@@ -46,14 +46,29 @@ function displaySumOfMaxtermsBtnHandler() {
 }
 
 function displaySumFormBtnHandler() {
-    document.getElementById("displayedFormulaName").innerHTML = _("Sum form");
+    document.getElementById("displayedFormulaName").innerHTML = _("Standard sum of products");
     toggleDisplayedFormulaToSumForm();
     reprocessDisplayedFormulae(truthTable);
 }
 
 function displayProductFormBtnHandler() {
-    document.getElementById("displayedFormulaName").innerHTML = _("Sum form");
+    document.getElementById("displayedFormulaName").innerHTML = _("Standard product of sums");
     toggleDisplayedFormulaToProductForm();
     reprocessDisplayedFormulae(truthTable);
 }
 
+function btnIntroNextHandler() {
+    gotoTab("tabStatement");
+}
+
+function btnStatementNextHandler() {
+    gotoTab("tabTable");
+}
+
+function btnTableNextHandler() {
+    gotoTab("tabVK");
+}
+
+function btnVKNextHandler() {
+    gotoTab("tabCircuit");
+}

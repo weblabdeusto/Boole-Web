@@ -400,6 +400,7 @@ function renderCircuitDiagramsInGrid(doc, startX, startY) {
     var offsetY = 0;
     var pageHeight = Math.floor(doc.internal.pageSize.height);
     var pageWidth = Math.floor(doc.internal.pageSize.width);
+    var lastIdx = 0;
 
     var svgElements = document.getElementById("holaz").childNodes;
     //One cannot assume that all diagrams are the same dimensions, therefore, one must calculate margins for
@@ -411,8 +412,20 @@ function renderCircuitDiagramsInGrid(doc, startX, startY) {
         var margin, centerSpace;
         thisHeight = nextHeight = thisWidth = nextWidth = 0;
 
-        var thisSvg = svgElements[2*i +2+1];
-        var nextSvg = svgElements[2*i+1];
+        thisSvg = nextSvg = null;
+
+        for(var j = lastIdx; j<svgElements.length; j++) {
+            if(typeof svgElements[j].tagName != "undefined" && svgElements[j].tagName == "svg"){
+                thisSvg = svgElements[j];
+                lastIdx = j+1;
+            }
+        }
+	for(var j = lastIdx; j<svgElements.length; j++) {
+            if(typeof svgElements[j].tagName != "undefined" && svgElements[j].tagName == "svg"){
+                nextSvg = svgElements[j];
+                lastIdx = j+1;
+            }
+        }
 
         var thereIsAPair = nextSvg != null;
 
@@ -592,12 +605,12 @@ function generateAddProductOfMaxtermsFormulae(truthtable) {
                 for (var k = gDeclaredInputCount-1 ; k >= 0 ; k--) {
                     var thisVar = gInputHashmap[gDeclaredInputCount-1-k];
                         if( ( ( 1 << k ) & j ) != 0 ) {
-                            //Conjunctive clause not inverted
-                            thisMaxterm+=thisVar;
-                        }
-                        else {
                             //Conjunctive clause is inverted
                             thisMaxterm+=("\\overline{"+thisVar+"}");
+                        }
+                        else {
+                            //Conjunctive clause is not inverted
+                            thisMaxterm+=thisVar;
                         }
                         if(k > 0){
                             thisMaxterm+="+";
@@ -926,14 +939,18 @@ function getAssociatedPortByCorrespondence( port, correspondence) {
 
 function generateVHDLPorts(inports, inoutports, outports) {
     var ret = "";
-    var total_ports = inports.length + inoutports.length + outports.length;
+    var total_ports = 0;
+    if(typeof inports != "undefined") total_ports += inports.length;
+    if(typeof inoutports != "undefined") total_ports += inoutports.length;
+    if(typeof outports != "undefined") total_ports += outports.length;    
+
     var port_count = 0;
 
     if(typeof inports != "undefined")
     for(var i=0;i<inports.length;i++,port_count++){
         ret+=            "\t\t";
         ret+=                    inports[i]+" : in std_logic";
-        if(i !=inports.length-1 || (inoutports.length != 0 || outports.length != 0))ret+=";"
+        if(port_count < total_ports - 1) ret+=";";
         ret+="\n";
     }
 

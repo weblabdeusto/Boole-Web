@@ -358,7 +358,9 @@ function preopVKVK(){
 
 
 function preopVKCircuit(){
-    //debugger;
+    //Start by clearning the panel
+    $("#holaz").empty();
+
     var inputs = [];
     var formulae = [];
 
@@ -623,23 +625,34 @@ function posopVKCircuit(){
 
 
         $(".draggable-in").draggable({ 
+            scroll: true,
             revert: true,
             start: function(event, ui) {
-                $(this).parent().attr('full', 'false');
+                $(this).data("startingScrollTop",$("#integration-modal").scrollTop());
                 $(".droppable-out").fadeTo( "fast", 0.33 );
             },
             stop: function(event, ui) {
                 $(".droppable-out").fadeTo( "fast", 1);
+            },
+            drag: function(event,ui){
+                var st = parseInt($(this).data("startingScrollTop"));
+                ui.position.top -= $("#integration-modal").scrollTop() - st;
             }
         });
-        $(".draggable-out").draggable({ 
+        $(".draggable-out").draggable({
+            refreshPositions: true, 
+            scroll: true,
             revert: true, 
             start: function(event, ui) {
-                $(this).parent().attr('full', 'false');
+                $(this).data("startingScrollTop",$("#integration-modal").scrollTop());
                 $(".droppable-in").fadeTo( "fast", 0.33 );
             },
             stop: function(event, ui) {
                 $(".droppable-in").fadeTo( "fast", 1);
+            },
+            drag: function(event,ui){
+                var st = parseInt($(this).data("startingScrollTop"));
+                ui.position.top -= $("#integration-modal").scrollTop() - st;
             }
         });
         
@@ -664,10 +677,9 @@ function posopVKCircuit(){
             // Note: the "drop" function will not be called if not ".correct"
             //  accept : '.correct',
             drop: function(event, ui) {
-                // alternative method:
-                // if (ui.draggable.find('p').text() == "1") {
                 if (ui.draggable.is('.draggable-in') && $(this).attr('full') === 'false') {
                     $(this).addClass('ui-state-highlight').find('p').html('You got it!');
+                    ui.draggable.parent().attr('full', 'false');
                     $(this).attr('full', 'true');
                     $(this).append(ui.draggable.css({position: 'static'}));
                     gCorrespondenceHashmap[ui.draggable[0].innerText] = getPortByDescriptiveText($(this)[0].firstChild.innerHTML);
@@ -685,10 +697,10 @@ function posopVKCircuit(){
             // Note: the "drop" function will not be called if not ".correct"
             //  accept : '.correct',
             drop: function(event, ui) {
-                // alternative method:
-                // if (ui.draggable.find('p').text() == "1") {
+                debugger;
                 if (ui.draggable.is('.draggable-out') && $(this).attr('full') === 'false') {
                     $(this).addClass('ui-state-highlight').find('p').html('You got it!');
+                    ui.draggable.parent().attr('full', 'false');
                     $(this).attr('full', 'true');
                     $(this).append(ui.draggable.css({position: 'static'}));
                     gCorrespondenceHashmap[ui.draggable[0].innerText] = getPortByDescriptiveText($(this)[0].firstChild.innerHTML);

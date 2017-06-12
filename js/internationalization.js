@@ -28,7 +28,8 @@ var internationalizableTags =
 	"titlePrompt", "hdrLinkageModal", "hdrSysIoPanel", "hdrRealIoPanel",
 	"btnUnlinkedVHDL", "btnLinkedVHDL","linkageModalCloseBtn",
 	"errorModalCloseBtn", "displayedFormulaName", "liSumOfMinterms",
-	"liSumOfMaxterms", "liSumForm", "liProdForm", "displayedFormulaSelectPrompt"
+	"liSumOfMaxterms", "liSumForm", "liProdForm", "displayedFormulaSelectPrompt",
+	"btnIntroNext", "btnStatementNext", "btnTableNext", "btnVKNext"
 ];
 
 function localizeAll() {
