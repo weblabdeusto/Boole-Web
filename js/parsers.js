@@ -184,12 +184,12 @@ function ExprVHDLParser(){
     }
     this.parseLiteralZeroExpr = function (expr, ins, out) {
         var ret = "";
-        ret = "0";
+        ret = "\'0\'";
         return ret;
     }
     this.parseLiteralOneExpr = function (expr, ins, out) {
         var ret = "";
-        ret = "1";
+        ret = "\'1\'";
         return ret;
     }
 
