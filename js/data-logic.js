@@ -213,7 +213,7 @@ function printAll() {
     centeredText(doc, startY, gSystemTitle);
     doc.setFontSize(subtitleSize);
     nextY = startY + 4*subtitleSize;
-    centeredText(doc, nextY, "subtitulo");
+    centeredText(doc, nextY, date.toLocaleDateString());
     nextY += interSectionSpacing;
 
     //Actual content starts here:
@@ -539,6 +539,19 @@ function evaluateInputOutputStatus() {
     }
     for(var i = 0; i<gDeclaredOutputCount; i++){
         evaluateOutputStatus("output"+i);
+    }
+
+    var ins = new Array();
+    var outs = new Array();
+
+    for(var key in gInputHashmap)ins.push(gInputHashmap[key]);
+    for(var key in gOutputHashmap)outs.push(gOutputHashmap[key]);
+    
+    var intersection = ins.filter(function (e) {
+        return outs.indexOf(e) > -1;
+    });
+    if(intersection.length != 0) {
+        gDuplicatedOutputs = gDuplicatedInputs = true;
     }
 }
 
@@ -874,7 +887,7 @@ function tableFillAll(fillWith) {
 
 function setupInputOutputControlListeners() {
     var max_out_fields = 10; //maximum outputs to the system
-    var max_in_fields = 4;   //maximum inputs to the system
+    var max_in_fields = 8;   //maximum inputs to the system
     var in_wrapper = $(".input_fields_wrap");  //document.getElementById("add_input_wrapper");
     var out_wrapper = $(".input_fields_wrap"); //document.getElementById("add_output_wrapper");
     

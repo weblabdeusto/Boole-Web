@@ -165,7 +165,7 @@ overflow:auo;
 .panel-left {
     flex: 0 0 auto;  /* only manually resize */
     padding: 10px;
-    width: 70%;
+    width: 50%;
     min-height: 200px;
     min-width: 150px;
     white-space: nowrap;
@@ -181,10 +181,11 @@ overflow:auo;
 .panel-right {
     flex: 1 1 auto; /* resizable */
     padding: 10px;
-    width: 30%;
+    width: 50%;
     min-height: 200px;
     min-width: 200px;
     background: #eee;
+    overflow-x: scroll;
 }
 
 .something {

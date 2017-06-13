@@ -158,6 +158,8 @@ function validVKStatement(){
 
 
 function validVKTable(){
+    return ValidationStatus.ALLOWED;
+    /*
     //Warn about data loss. If okay, continue
     modalMgr.displayOverrideConfirmModal(
                                          _("Confirm"),
@@ -168,6 +170,7 @@ function validVKTable(){
                                          });
 
     return ValidationStatus.DATA_LOSS;
+    */
 }
 
 
@@ -216,7 +219,9 @@ function validCircuitStatement(){
 
 
 function validCircuitTable(){
+    return ValidationStatus.ALLOWED;
     //Warn about data loss. If okay, continue
+    /*
     modalMgr.displayOverrideConfirmModal(
                                          _("Confirm"),
                                          _("Karnaugh maps and the circuit will be lost. Do you want to continue?"),
@@ -226,10 +231,14 @@ function validCircuitTable(){
                                          });
 
     return ValidationStatus.DATA_LOSS;
+    */
 }
 
 
 function validCircuitVK(){
+    return ValidationStatus.ALLOWED;
+
+/*
     //Warn about data loss. If okay, continue
     modalMgr.displayOverrideConfirmModal(
                                          _("Confirm"),
@@ -238,8 +247,8 @@ function validCircuitVK(){
                                             triggerTabSwitch("VK");
                                             modalMgr.hideAllModals();
                                          });
-
     return ValidationStatus.DATA_LOSS;
+*/
 }
 
 
@@ -521,88 +530,97 @@ function posopVKVK(){
 
 
 function posopVKCircuit(){
-    var realIn = [];
-    var realOut = [];
-    var sysIn = [];
-    var sysOut = [];
 
-    var j,k;
-    for(var i = j = k = 0; i<gPorts.length; i++) {
-        if(gPorts[i].type == "in"){
-            realIn[j++] = gPorts[i].portReprText;
+        var realIn = [];
+        var realOut = [];
+        var sysIn = [];
+        var sysOut = [];
+
+        $("#systemIOcol").empty();
+        $("#realIOcol").empty();   
+
+        var j,k;
+        for(var i = j = k = 0; i<gPorts.length; i++) {
+            if(gPorts[i].type == "in"){
+                realIn[j++] = gPorts[i].portReprText;
+            }
+            else if(gPorts[i].type == "out") {
+                realOut[k++] = gPorts[i].portReprText;
+            }
         }
-        else if(gPorts[i].type == "out") {
-            realOut[k++] = gPorts[i].portReprText;
+
+        for(var i = 0; i<Object.keys(gInputHashmap).length; i++) {
+            sysIn[i] = gInputHashmap[i];
         }
-    }
 
-    for(var i = 0; i<Object.keys(gInputHashmap).length; i++) {
-        sysIn[i] = gInputHashmap[i];
-    }
+        for(var i = 0; i<Object.keys(gOutputHashmap).length; i++) {
+            sysOut[i] = gOutputHashmap[i];
+        }
 
-    for(var i = 0; i<Object.keys(gOutputHashmap).length; i++) {
-        sysOut[i] = gOutputHashmap[i];
-    }
+        var sysInDiv = document.createElement('div');
+        sysInDiv.id = "sysInDiv";
 
-    var sysInDiv = document.createElement('div');
-    sysInDiv.id = "sysInDiv";
+        var sysOutDiv = document.createElement('div');
+        sysOutDiv.id = "sysOutDiv";
 
-    var sysOutDiv = document.createElement('div');
-    sysOutDiv.id = "sysOutDiv";
+        var realInDiv = document.createElement('div');
+        realInDiv.id = "realInDiv";
 
-    var realInDiv = document.createElement('div');
-    realInDiv.id = "realInDiv";
+        var realOutDiv = document.createElement('div');
+        realOutDiv.id = "realOutDiv";
 
-    var realOutDiv = document.createElement('div');
-    realOutDiv.id = "realOutDiv";
+        var systemIODiv = document.getElementById("systemIOcol");
+        var realIODiv = document.getElementById("realIOcol");
 
-    var systemIODiv = document.getElementById("systemIOcol");
-    var realIODiv = document.getElementById("realIOcol");
+        for(var i = 0; i<sysIn.length; i++) {
+            var newDraggableInDiv = document.createElement('div');
+            var portText = document.createElement('tt');
+            newDraggableInDiv.className = "draggable-in";
+            newDraggableInDiv.color = "red";
+            portText.innerHTML = sysIn[i];
+            newDraggableInDiv.appendChild(portText);
+            sysInDiv.appendChild(newDraggableInDiv);
 
-    for(var i = 0; i<sysIn.length; i++) {
-        var newDraggableInDiv = document.createElement('div');
-        var portText = document.createElement('tt');
-        newDraggableInDiv.className = "draggable-in";
-        newDraggableInDiv.color = "red";
-        portText.innerHTML = sysIn[i];
-        newDraggableInDiv.appendChild(portText);
-        sysInDiv.appendChild(newDraggableInDiv);
+        }
 
-    }
+        for(var i = 0; i<sysOut.length; i++) {
+            var newDraggableOutDiv = document.createElement('div');
+            var portText = document.createElement('tt');
+            newDraggableOutDiv.className = "draggable-out";
+            newDraggableOutDiv.color = "red";
+            portText.innerHTML = sysOut[i];
+            newDraggableOutDiv.appendChild(portText);
+            sysOutDiv.appendChild(newDraggableOutDiv);
+        }
 
-    for(var i = 0; i<sysOut.length; i++) {
-        var newDraggableOutDiv = document.createElement('div');
-        var portText = document.createElement('tt');
-        newDraggableOutDiv.className = "draggable-out";
-        newDraggableOutDiv.color = "red";
-        portText.innerHTML = sysOut[i];
-        newDraggableOutDiv.appendChild(portText);
-        sysOutDiv.appendChild(newDraggableOutDiv);
-    }
+        for(var i = 0; i<realIn.length; i++) {
+            var newDroppableInDiv = document.createElement('div');
+            var portText = document.createElement('tt');
+            newDroppableInDiv.className = "droppable-in";
+            newDroppableInDiv.color = "red";
+            portText.innerHTML = realIn[i];
+            newDroppableInDiv.appendChild(portText);
+            realInDiv.appendChild(newDroppableInDiv);
+        }
 
-    for(var i = 0; i<realIn.length; i++) {
-        var newDroppableInDiv = document.createElement('div');
-        var portText = document.createElement('tt');
-        newDroppableInDiv.className = "droppable-in";
-        newDroppableInDiv.color = "red";
-        portText.innerHTML = realIn[i];
-        newDroppableInDiv.appendChild(portText);
-        realInDiv.appendChild(newDroppableInDiv);
-    }
-
-    for(var i = 0; i<realOut.length; i++) {
-        var newDroppableOutDiv = document.createElement('div');
-        var portText = document.createElement('tt');
-        newDroppableOutDiv.className = "droppable-out";
-        newDroppableOutDiv.color = "red";
-        portText.innerHTML = realOut[i];
-        newDroppableOutDiv.appendChild(portText);
-        realOutDiv.appendChild(newDroppableOutDiv);
-    }
+        for(var i = 0; i<realOut.length; i++) {
+            var newDroppableOutDiv = document.createElement('div');
+            var portText = document.createElement('tt');
+            newDroppableOutDiv.className = "droppable-out";
+            newDroppableOutDiv.color = "red";
+            portText.innerHTML = realOut[i];
+            newDroppableOutDiv.appendChild(portText);
+            realOutDiv.appendChild(newDroppableOutDiv);
+        }
 
 
-    //Make elements draggable
+    $('#integration-modal').on('hidden.bs.modal', function() {
+        $("#systemIOcol").empty();
+        $("#realIOcol").empty();
+        posopVKCircuit();
+    });
     $('#integration-modal').on('shown.bs.modal', function() {
+
         var max = -1;
         $(".draggable-in").each(function() {
             var h = $(this).height();
@@ -712,10 +730,10 @@ function posopVKCircuit(){
         });
     });
 
-    systemIODiv.appendChild(sysInDiv);
-    systemIODiv.appendChild(sysOutDiv);
-    realIODiv.appendChild(realInDiv);
-    realIODiv.appendChild(realOutDiv);
+        systemIODiv.appendChild(sysInDiv);
+        systemIODiv.appendChild(sysOutDiv);
+        realIODiv.appendChild(realInDiv);
+        realIODiv.appendChild(realOutDiv);
 
 }
 
