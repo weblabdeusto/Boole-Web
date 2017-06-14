@@ -418,12 +418,14 @@ function renderCircuitDiagramsInGrid(doc, startX, startY) {
             if(typeof svgElements[j].tagName != "undefined" && svgElements[j].tagName == "svg"){
                 thisSvg = svgElements[j];
                 lastIdx = j+1;
+		break;
             }
         }
 	for(var j = lastIdx; j<svgElements.length; j++) {
             if(typeof svgElements[j].tagName != "undefined" && svgElements[j].tagName == "svg"){
                 nextSvg = svgElements[j];
                 lastIdx = j+1;
+		break;
             }
         }
 
