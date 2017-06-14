@@ -619,7 +619,7 @@ function posopVKCircuit(){
         $("#realIOcol").empty();
         posopVKCircuit();
     });
-    $('#integration-modal').on('shown.bs.modal', function() {
+    $('#integration-modal').off().on('shown.bs.modal', function() {
 
         var max = -1;
         $(".draggable-in").each(function() {
@@ -636,10 +636,10 @@ function posopVKCircuit(){
         });
         $(".draggable-in").height(max); $(".draggable-in").width(max);
         $(".draggable-out").height(max); $(".draggable-out").width(max);
-        $(".droppable-in").height($(".droppable-in").height()+max);
-        $(".droppable-out").height($(".droppable-out").height()+max);
-	$(".droppable-in").width($(".droppable-in").height());
-        $(".droppable-out").width($(".droppable-out").height());
+        $(".droppable-in").height(75);
+        $(".droppable-out").height(75);
+	$(".droppable-in").width(75);
+        $(".droppable-out").width(75);
 
 
         $(".draggable-in").draggable({ 
