@@ -26,6 +26,10 @@ function downloadUnlinkedVHDLHandler() {
     downloadUnlinkedVHDL();
 }
 
+function downloadSystemHandler() {
+    downloadSystemAsJson();
+}
+
 function downloadLinkedVHDLHandler() {
     downloadLinkedVHDL();
 }

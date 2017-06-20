@@ -1129,6 +1129,11 @@ function downloadUnlinkedVHDL() {
     triggerStringAsFileDownload( gSystemTitle.replace(/ /g,'')+".vhd" , vhdlCode);
 }
 
+function downloadSystemAsJson() {
+    var json = serializeCombinationalSystemToJSON();
+    triggerStringAsFileDownload(gSystemTitle.replace(/ /g,'')+".bdw", json);
+}
+
 function triggerStringAsFileDownload(filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -1207,6 +1212,18 @@ function isToBeAlwaysGenerated(portName) {
         if(gPorts[i].portName == portName)
             return gPorts[i].alwaysGenerate;
     }
+}
+
+function serializeCombinationalSystemToJSON() {
+    var obj = {};
+    obj['truth-table'] = truthTable;
+    obj['input-count'] = gDeclaredInputCount;
+    obj['output-count'] = gDeclaredOutputCount;
+    obj['input-names'] = gInputHashmap;
+    obj['output-names'] = gOutputHashmap;
+
+    debugger;
+    return JSON.stringify(obj);
 }
 
 function processPortForSelfModifications(port) {

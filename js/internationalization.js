@@ -29,7 +29,8 @@ var internationalizableTags =
 	"btnUnlinkedVHDL", "btnLinkedVHDL","linkageModalCloseBtn",
 	"errorModalCloseBtn", "displayedFormulaName", "liSumOfMinterms",
 	"liSumOfMaxterms", "liSumForm", "liProdForm", "displayedFormulaSelectPrompt",
-	"btnIntroNext", "btnStatementNext", "btnTableNext", "btnVKNext"
+	"btnIntroNext", "btnStatementNext", "btnTableNext", "btnVKNext",
+	"btnDownloadSystem"
 ];
 
 function localizeAll() {
