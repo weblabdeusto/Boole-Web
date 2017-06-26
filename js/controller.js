@@ -32,6 +32,7 @@ function configure(config_json) {
     var outputsAreReadOnly = !config.outputsAreModifiable;
     var inputCountIsReadOnly = !config.inputCountIsEditable;
     var outputCountIsReadOnly = !config.outputCountIsEditable;
+    var capturedTruthTable = config.truthTable;
 
     for(var i = 0; i<inputCount-1; i++){
         jQuery._data( document.getElementById("add_input"),"events").click[0].handler();
@@ -88,6 +89,12 @@ function configure(config_json) {
 	    document.getElementById("outDelete"+outputCount).remove();
     }
     evaluateInputOutputStatus();
+
+    if(typeof capturedTruthTable != "undefined") {
+        gQueuedTruthTable = truthTable = capturedTruthTable;
+
+    }
+    
 }
 
 
@@ -128,4 +135,40 @@ function configure_integration(integration_config_json) {
 
     gPorts = config.ports;
     
+}
+
+function reset() {
+    for (var i = $(".inputform").length-1; i>0 ; i--){
+        $(".inputform")[i].remove();
+    }
+    $(".inputform")[0].value = "";
+    for (var i = $(".outputform").length-1; i>0 ; i--){
+        $(".outputform")[i].remove();
+    }
+    
+    $(".inputform")[0].value = "";
+    $(".outputform")[0].value = "";
+
+    $("#tablaVerdad").remove();
+
+    $(".remove_input").remove();
+    $(".remove_output").remove();
+
+    gDeclaredInputCount = 1;
+    gDefinedInputCount = 0;
+    gDeclaredOutputCount = 1;
+    gDefinedOutputCount = 0;
+    gInputHashmap = {};
+    gOutputHashmap = {};
+    gDuplicatedInputs = false;
+    gDuplicatedOutputs = false;
+    gQmcHashmap = {};
+    gKarnaughHashmap = {};
+    gSystemTitle = "";
+    gPorts = [];
+    gCorrespondenceHashmap = {}
+
+    $("#add_input").off("click");
+    $("#add_output").off("click");
+    setupEventListeners();
 }

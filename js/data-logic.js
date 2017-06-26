@@ -4,14 +4,23 @@ var gFormulaCreatingFunction = function donothing(){};
 var gLastError;
 
 
-function isTruthTableComplete(table) {
-    for(var i = 0; i < table.length; i++){
-        for(var j = 0; j<table[i].length; j++){
-           if(typeof table[i][j] == "undefined")
+function isTruthTableComplete(tableToCheck) {
+    debugger;
+    for(var i = 0; i < tableToCheck.length; i++){
+        for(var j = 0; j<tableToCheck[i].length; j++){
+           if(isAllowedTruthValue(tableToCheck[i][j]) === false)
                return false;
         }
     }
     return true;
+}
+
+function isAllowedTruthValue(val) {
+   var allowed = ["0", "1", "X", 0, 1];
+   for(var i = 0; i<allowed.length; i++){
+       if(val === allowed[i])return true;
+   }
+   return false;
 }
 
 function validateTabSwitchToTruthTable() {
@@ -794,15 +803,18 @@ function toggleTruthValue(element) {
     reprocessDisplayedFormulae(truthTable);
 }
 
-function tableCreate(){
+function tableCreate(baseTable){
     var body = document.getElementById("truthtable-panel");
     tbl  = document.createElement('table');
     tbl.id = "tablaVerdad";
     tbl.setAttribute("align", "center");
     
     //Initialize the structure that will hold data
-    truthTable = new Array(gDeclaredInputCount);
-    
+    debugger;
+    if(typeof baseTable == "undefined"){
+        truthTable = new Array(gDeclaredInputCount);
+    }    
+
     var header = tbl.insertRow();
     for(var i = 0; i < gDeclaredInputCount; i++){
             var td = header.insertCell();
@@ -818,7 +830,8 @@ function tableCreate(){
 
     for(var i = 0; i < Math.pow(2,gDeclaredInputCount); i++){
         var tr = tbl.insertRow();
-        truthTable[i] = new Array(gDeclaredInputCount + gDeclaredOutputCount);
+        if(typeof baseTable == "undefined")
+            truthTable[i] = new Array(gDeclaredInputCount + gDeclaredOutputCount);
         //These are input columns, must not be modifiable.
         for(var j = 0; j < gDeclaredInputCount; j++){
             var inputLogicalValue = ((1 == ( (i >> (gDeclaredInputCount - 1 - j)) & 1))? 1:0);
@@ -827,7 +840,8 @@ function tableCreate(){
             td.setAttribute("i", i);
             td.setAttribute("j", j);
             td.appendChild(document.createTextNode(inputLogicalValue));
-            truthTable[i][j] = inputLogicalValue;
+            if(typeof baseTable == "undefined")
+                truthTable[i][j] = inputLogicalValue;
         }
         //These others are output columns. Must be modifiable.
         for(var j = 0; j < gDeclaredOutputCount; j++){
@@ -839,6 +853,9 @@ function tableCreate(){
             td.appendChild(document.createTextNode(''));
             td.setAttribute("i", i);
             td.setAttribute("j", gDeclaredInputCount + j);
+            if(typeof baseTable != "undefined") {
+                td.innerHTML = baseTable[i][j];
+            }
         }
     }
     body.appendChild(tbl);
@@ -887,9 +904,14 @@ function tableFillAll(fillWith) {
     }
 }
 
+function triggerTruthTableRefresh(){
+    document.getElementById("tablaVerdad");
+    debugger;
+}
+
 function setupInputOutputControlListeners() {
     var max_out_fields = 10; //maximum outputs to the system
-    var max_in_fields = 8;   //maximum inputs to the system
+    var max_in_fields = 4;   //maximum inputs to the system
     var in_wrapper = $(".input_fields_wrap");  //document.getElementById("add_input_wrapper");
     var out_wrapper = $(".input_fields_wrap"); //document.getElementById("add_output_wrapper");
     
@@ -1216,11 +1238,28 @@ function isToBeAlwaysGenerated(portName) {
 
 function serializeCombinationalSystemToJSON() {
     var obj = {};
-    obj['truth-table'] = truthTable;
-    obj['input-count'] = gDeclaredInputCount;
-    obj['output-count'] = gDeclaredOutputCount;
-    obj['input-names'] = gInputHashmap;
-    obj['output-names'] = gOutputHashmap;
+    obj["type"] = "config";
+    obj["trainingMode"] = false;
+    obj["statement"] = document.getElementById("panel-enunciado-capturado").innerHTML;
+    obj["statementIsEditable"] = true;
+    obj["inputCount"] = gDeclaredInputCount;
+    obj["outputCount"] = gDeclaredOutputCount;
+
+    var declaredInputs = [];
+    for(key in gInputHashmap){
+        declaredInputs.push(gInputHashmap[key]);
+    }
+    var declaredOutputs = [];
+    for(key in gOutputHashmap){
+        declaredOutputs.push(gOutputHashmap[key]);
+    }
+    obj["inputs"] = declaredInputs;
+    obj["outputs"] = declaredOutputs;
+    obj["inputCountIsEditable"] = true;
+    obj["outputCountIsEditable"] = true;
+    obj["inputsAreModifiable"] = true;
+    obj["outputsAreModifiable"] = true;
+    obj["truthTable"] = truthTable; 
 
     debugger;
     return JSON.stringify(obj);
@@ -1256,4 +1295,9 @@ function toggleDisplayedFormulaToSumForm() {
 
 function toggleDisplayedFormulaToProductForm() {
     gFormulaCreatingFunction = generateAddProductForm;
+}
+
+function processUploadedFile(file) {
+    debugger;
+    console.log(file);
 }

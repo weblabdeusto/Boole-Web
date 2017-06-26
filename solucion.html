@@ -8,6 +8,7 @@
         <meta name="description" content="Boole Web">
         <meta name="author" content="Weblab Deusto">
         <link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="node_modules/dropzone/dist/dropzone.css" />
 	<link rel="localization" hreflang="es" href="lang/es.json" type="application/vnd.oftn.l10n+json"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -16,6 +17,7 @@
         <script src="js/tab-logic.js"></script>
         <script src="js/solucion.js"></script>
         <script src="js/logidrom_b.js"></script>
+	<script src="js/file-upload.js"></script>
         <script src="js/internationalization.js"></script>
 	<script src="js/onload.js"></script>
         <script src="js/control-facade.js"></script>
@@ -26,6 +28,7 @@
 	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
 	<script src="bower_components/jspdf/dist/jspdf.min.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="node_modules/dropzone/dist/dropzone.js"></script>
 	<script src="bower_components/jspdf-autotable/dist/jspdf.plugin.autotable.js"></script>
 	<script src="node_modules/quill/dist/quill.js"></script> 
         <script src="js/i18n.js"></script>
@@ -62,6 +65,9 @@
 			luis.rodriguezgil@deusto.es or zubia@deusto.es.
 		</p><br><br><br><br><br><br><br>
 		<p>
+			Hint: try dropping a BDW file here!
+		</p><br><br><br><br><br><br><br>
+		<p>
 			P.S.: Si te ha gustado este software y quieres trabajar en algo similar el plazo de solicitud de Becas de Colaboracion esta
 			abierto. Mas informacion en:
 		</p>	
@@ -82,8 +88,6 @@
 			<div class="panel-body">
 
 				<div class="col">
-
-
 					<div class="row-sm-6">
 						<div class="row form-group">
 							<label id="titlePrompt" class="col-sm-3 control-label">Title</label>
@@ -123,7 +127,9 @@
 							</div>	
 						</div>
 					</div>
+					<div id="previews" class="dropzone-previews" style="display:none"></div>
 					<button type="button" class="btn btn-primary pull-rignt" id="btnStatementNext" onclick="btnStatementNextHandler();" style="float: right">Next</button>
+
 				</div>
 			</div>
 		</div>

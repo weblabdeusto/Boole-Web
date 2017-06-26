@@ -3,6 +3,8 @@ window.onload = function() {
     window.addEventListener('message', receiveMessage);
     addNewInterceptor(configureNewExercise);
     addNewInterceptor(configureNewIntegration);
+
+    setupDrop();
     localizeAll();
 }
 

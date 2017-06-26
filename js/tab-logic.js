@@ -304,7 +304,8 @@ function preopStatementTable(){
     }
     document.getElementById("panel-enunciado-capturado").innerHTML = quill.container.firstChild.innerHTML;
     //document.getElementById("truthtable-panel").innerHTML = "";
-    tableCreate();
+    tableCreate(gQueuedTruthTable);
+    gQueuedTruthTable = undefined;
     return;
 }
 

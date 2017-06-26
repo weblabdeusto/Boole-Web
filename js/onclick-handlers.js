@@ -76,3 +76,8 @@ function btnTableNextHandler() {
 function btnVKNextHandler() {
     gotoTab("tabCircuit");
 }
+
+function btnUploadHandler(file){
+    debugger;
+    console.log(file);
+}
