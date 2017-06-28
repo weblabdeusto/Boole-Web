@@ -4,7 +4,7 @@ window.onload = function() {
     addNewInterceptor(configureNewExercise);
     addNewInterceptor(configureNewIntegration);
 
-    setupDrop();
+    setupDrop(document.body, document.getElementById("fileUploadInput"));
     localizeAll();
 }
 

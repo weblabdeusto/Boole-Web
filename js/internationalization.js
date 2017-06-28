@@ -30,7 +30,7 @@ var internationalizableTags =
 	"errorModalCloseBtn", "displayedFormulaName", "liSumOfMinterms",
 	"liSumOfMaxterms", "liSumForm", "liProdForm", "displayedFormulaSelectPrompt",
 	"btnIntroNext", "btnStatementNext", "btnTableNext", "btnVKNext",
-	"btnDownloadSystem"
+	"btnDownloadSystem", "btnUploadFile"
 ];
 
 function localizeAll() {
