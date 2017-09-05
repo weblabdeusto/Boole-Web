@@ -165,7 +165,6 @@ function reset() {
     gQmcHashmap = {};
     gKarnaughHashmap = {};
     gSystemTitle = "";
-    gPorts = [];
     gCorrespondenceHashmap = {}
 
     $("#add_input").off("click");
