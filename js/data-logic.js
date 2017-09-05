@@ -102,6 +102,7 @@ function createAndPopulateSingleKMap(parentDiv, outputName, outputOrdinal) {
     karnaugh.setDontShowResult(1);
 
     for(var i = 0; i< truthTable.length ; i++) {
+        debugger;
         karnaugh.setFnValue(i, truthTable[i][gDeclaredInputCount+outputOrdinal]);
     }
     
@@ -816,13 +817,13 @@ function tableCreate(baseTable){
     }    
 
     var header = tbl.insertRow();
-    for(var i = 0; i < gDeclaredInputCount; i++){
+    for(var i = gDeclaredInputCount - 1; i>=0 ; i--){
             var td = header.insertCell();
             td.className = "tv-th";
             td.appendChild(document.createTextNode(gInputHashmap[i]));
     }
 
-    for(var i = 0; i < gDeclaredOutputCount; i++){
+    for(var i = gDeclaredOutputCount - 1; i>=0 ; i--){
             var td = header.insertCell();
             td.className = "tv-th";
             td.appendChild(document.createTextNode(gOutputHashmap[i]));
