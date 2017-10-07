@@ -5,15 +5,87 @@
 // There is no warranty or other guarantee of fitness for this software, 
 // it is provided solely "as is". 
 
-var _1VarKMapFillingLUT = [0,1];
-var _2VarKMapFillingLUT = [0, 2, 1, 3];
-var _3VarKMapFillingLUT = [0, 1, 4, 5, 3, 2, 7, 6];
-var _4VarKMapFillingLUT = [0, 1, 4, 5, 3, 2, 7, 6, 12, 13, 8, 9, 15, 14, 11, 10];
 
-var KMapFillingLUTs = [null, _1VarKMapFillingLUT, _2VarKMapFillingLUT, _3VarKMapFillingLUT, _4VarKMapFillingLUT];
+//	TYPE: A
+//                                       e2
+//                               -----------------
+//                              e0
+//                      -----------------
+//            +--------+--------+--------+--------+
+//            |        |        |        |        |
+//            |   00   |   01   |   05   |   04   |
+//            |        |        |        |        |
+//            +--------+--------+--------+--------+
+//    |       |	       |	|        |        |
+//    |       |   02   |   03   |   07   |   06   |                                       in0
+//    |       |	       |        |        |        |                                    ---------  in2
+//    |       +--------+--------+--------+--------+                                        -----------
+// e1 |    |  |        |        |        |        |
+//    |    |  |   10   |   11   |   15   |   14   |
+//    |    |  |        |        |        |        |                             |
+//    |    |  +--------+--------+--------+--------+                         in1 |
+//      e3 |  |        |        |        |        |                      |      |
+//         |  |   08   |   09   |   13   |   12   |                 in3  |
+//         |  |        |        |        |        |                      |
+//         |  +--------+--------+--------+--------+
+
+// -------------------------------------------------------------
+// TYPE A
+
+var __TYPEA__1VarKMapFillingLUT = {0:0, 1:1};
+var __TYPEA__2VarKMapFillingLUT = {0:0, 1:2, 2:1, 3:3};
+var __TYPEA__3VarKMapFillingLUT = {0:0, 1:1, 2:4, 3:5,
+				   4:3, 5:2, 6:7, 7:6};
+var __TYPEA__4VarKMapFillingLUT = {0:0, 1:1, 2:4, 3:5,
+				   4:3, 5:2, 6:7, 7:6,
+				   8:12, 9:13, 10:8, 11:9,
+				   12:15, 13:14, 14:11, 15:10};
+var __TYPEA__KMapFillingLUTs = [null, __TYPEA__1VarKMapFillingLUT,
+				__TYPEA__2VarKMapFillingLUT,
+				__TYPEA__3VarKMapFillingLUT,
+				__TYPEA__4VarKMapFillingLUT];
+
+var __TYPEA__1VarKMapVarPositionTable = {0:0};
+var __TYPEA__2VarKMapVarPositionTable = {0:0, 1:1};
+var __TYPEA__3VarKMapVarPositionTable = {0:0, 1:1, 2:2};
+var __TYPEA__4VarKMapVarPositionTable = {0:0, 1:1, 2:2, 3:3};
+var __TYPEA__VarPositioningTables = [null, __TYPEA__1VarKMapVarPositionTable, 
+					__TYPEA__2VarKMapVarPositionTable, __TYPEA__3VarKMapVarPositionTable, __TYPEA__4VarKMapVarPositionTable];
+
+
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+// TYPE B
+
+var __TYPEB__4VarKMapFillingLUT = {0:0, 1:12, 2:3, 3:15,
+				   4:4, 5:8, 6:7, 7:11,
+				   8:1, 9:13, 10:2, 11:14, 
+				   12:5, 13:9, 14:6, 15:10};
+
+var __TYPEB__KMapFillingLUTs = [null, null, null, null, __TYPEB__4VarKMapFillingLUT];
+
+var __TYPEB__4VarKMapVarPositionTable = {0:3, 1:2, 2:1, 3:0};
+
+var __TYPEB__VarPositioningTables = [null, null, null, null, __TYPEB__4VarKMapVarPositionTable];
+
+// --------------------------------------------------------------
+// --------------------------------------------------------------
+
+var selectedType = "b";
+
+var fillingTablesByType = { "a" : __TYPEA__KMapFillingLUTs, 'a': __TYPEA__KMapFillingLUTs,
+			    "b" : __TYPEB__KMapFillingLUTs, 'b': __TYPEB__KMapFillingLUTs
+                          };
+
+var positioningTablesByType = { "a" : __TYPEA__VarPositioningTables, 'a': __TYPEA__VarPositioningTables, 
+				"b" : __TYPEB__VarPositioningTables, 'b': __TYPEB__VarPositioningTables
+			      };
+
+
+
 
 function getKMapIndexByInput(ordinal, noOfVars) {
-  var LUT = KMapFillingLUTs[noOfVars];
+  var LUT = fillingTablesByType[selectedType][noOfVars];						//heyhey lut changed to type b
   console.log("Ordinal " + ordinal + " gets mapped to " + LUT[ordinal] );
   //alert("Called motherfucker!");
   return LUT[ordinal];
@@ -85,7 +157,7 @@ function KarnaughMapDataCtrl(qmcRef) {
         id++;
       }
     }
-
+    debugger;
     var mapped = 0;
     this.fields[0].truthmapID = 0;
     this.fields[1].truthmapID = 1;
@@ -102,7 +174,7 @@ function KarnaughMapDataCtrl(qmcRef) {
         for (var yy = 0; yy < mirrorYCount; yy++) {
           var loc = xx + yy * this.fieldPerLine;
 
-          if (direction === 0) {
+          if (direction === 0) { 
             var mirrorLoc = (x + xx) + (y + (mirrorYCount - 1) - yy) * this.fieldPerLine;
             this.fields[mirrorLoc].truthmapID = this.fields[loc].truthmapID + mirrorXCount * mirrorYCount;
           } else {
@@ -310,8 +382,8 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
   this.outputName = kMapOutputName;
   this.inputNames = [];
   //debugger;
-  for(var i = 0; i< Object.keys(kMapInputNames).length; i++){
-    this.inputNames[i] = kMapInputNames[i];
+  for(var key in positioningTablesByType[selectedType][inputVarCount]){
+    this.inputNames[__TYPEB__4VarKMapVarPositionTable[key]] = kMapInputNames[key];
   }
   this.init = function () {
 
@@ -463,8 +535,11 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
   function drawKVField(fieldId) {
 
     var fieldPosX = data.getKVFieldPositionX(fieldId);
-    var fieldPosY = data.getKVFieldPositionY(fieldId);
-    var truthmapID = data.getKVFieldTruthmapID(fieldId);
+    var fieldPosY = data.getKVFieldPositionY(fieldId);//HEYHEYHEY
+    var truthmapID = Object.keys(fillingTablesByType[selectedType][data.noOfVars]).find(key => fillingTablesByType[selectedType][data.noOfVars][key] === fieldId);
+    //right hand side used to be data.getKVFieldTruthmapID(fieldId);
+    //debugger;
+    //console.log("Karnaugh field ID " + fieldId + " has truth value " + truthmapID);
     var value = data.getKVFieldValue(fieldId);
     var dn = new UIElement(fieldPosX, fieldPosY, data.fieldWidth, data.fieldHeight, 0, fieldId, 0, 0);
 
@@ -507,7 +582,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
 
     uiElements.push(dn);
 
-    if (true) {
+    if (true) { //HEYHEYHEY
       var text2 = document.createElementNS(svgns, 'text');
       text2.setAttribute("fill", "#909090");
       text2.setAttribute("text-anchor", "start");
@@ -847,7 +922,10 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
 
     // draw binary value
     if (hooveredKVField >= 0 && hooveredKVField < data.getKVFieldsCount()) {
-      var truthmapID = data.getKVFieldTruthmapID(hooveredKVField);
+      debugger;
+      var truthmapID = parseInt(Object.keys(fillingTablesByType[selectedType][data.noOfVars]).find(key => fillingTablesByType[selectedType][data.noOfVars][key] === hooveredKVField));
+      //right hand side used to be data.getKVFieldTruthmapID(hooveredKVField);
+
       var binString = truthmapID.toString(2);
       while (binString.length < data.noOfVars)
         binString = "0" + binString;

@@ -716,7 +716,7 @@ function posopVKCircuit(){
             // Note: the "drop" function will not be called if not ".correct"
             //  accept : '.correct',
             drop: function(event, ui) {
-                debugger;
+                //debugger;
                 if (ui.draggable.is('.draggable-out') && $(this).attr('full') === 'false') {
                     $(this).addClass('ui-state-highlight').find('p').html('You got it!');
                     ui.draggable.parent().attr('full', 'false');

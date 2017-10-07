@@ -5,7 +5,7 @@ var gLastError;
 
 
 function isTruthTableComplete(tableToCheck) {
-    debugger;
+    //debugger;
     for(var i = 0; i < tableToCheck.length; i++){
         for(var j = 0; j<tableToCheck[i].length; j++){
            if(isAllowedTruthValue(tableToCheck[i][j]) === false)
@@ -102,7 +102,7 @@ function createAndPopulateSingleKMap(parentDiv, outputName, outputOrdinal) {
     karnaugh.setDontShowResult(1);
 
     for(var i = 0; i< truthTable.length ; i++) {
-        debugger;
+        //debugger;
         karnaugh.setFnValue(i, truthTable[i][gDeclaredInputCount+outputOrdinal]);
     }
     
@@ -628,7 +628,7 @@ function generateAddProductOfMaxtermsFormulae(truthtable) {
         if(truthTable[j][gDeclaredInputCount+i] == "0"){    
                 var thisMaxterm = "(";
                 for (var k = gDeclaredInputCount-1 ; k >= 0 ; k--) {
-                    var thisVar = gInputHashmap[gDeclaredInputCount-1-k];
+                    var thisVar = gInputHashmap[k];
                         if( ( ( 1 << k ) & j ) != 0 ) {
                             //Conjunctive clause is inverted
                             thisMaxterm+=("\\overline{"+thisVar+"}");
@@ -680,8 +680,8 @@ function generateAddSumOfMintermsFormulae(truthTable) {
         for(var j = 0; j < truthTable.length; j++) {
         if(truthTable[j][gDeclaredInputCount+i] == "1"){    
                 var thisMinterm = "";
-                for (var k = gDeclaredInputCount-1 ; k >= 0 ; k--) {
-                    var thisVar = gInputHashmap[gDeclaredInputCount-1-k];
+                for (var k = gDeclaredInputCount-1 ; k>=0 ; k--) {
+                    var thisVar = gInputHashmap[k];
                         if( ( ( 1 << k ) & j ) != 0 ) {
                             //Conjunctive clause not inverted
                             thisMinterm+=thisVar + "~";
@@ -811,7 +811,7 @@ function tableCreate(baseTable){
     tbl.setAttribute("align", "center");
     
     //Initialize the structure that will hold data
-    debugger;
+    //debugger;
     if(typeof baseTable == "undefined"){
         truthTable = new Array(gDeclaredInputCount);
     }    
@@ -907,7 +907,7 @@ function tableFillAll(fillWith) {
 
 function triggerTruthTableRefresh(){
     document.getElementById("tablaVerdad");
-    debugger;
+    //debugger;
 }
 
 function setupInputOutputControlListeners() {
@@ -1262,7 +1262,7 @@ function serializeCombinationalSystemToJSON() {
     obj["outputsAreModifiable"] = true;
     obj["truthTable"] = truthTable; 
 
-    debugger;
+    //debugger;
     return JSON.stringify(obj);
 }
 
@@ -1299,6 +1299,6 @@ function toggleDisplayedFormulaToProductForm() {
 }
 
 function processUploadedFile(file) {
-    debugger;
+    //debugger;
     console.log(file);
 }
