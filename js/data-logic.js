@@ -623,7 +623,7 @@ function generateAddProductOfMaxtermsFormulae(truthtable) {
         if(!thisPOSIsDefined) continue;
 
         prodOfMaxterms = "";
-	prodOfMaxterms += ("$" + gOutputHashmap[i] + " = ");
+	prodOfMaxterms += ("$" + gOutputHashmap[gDeclaredOutputCount - i - 1] + " = ");
         for(var j = 0; j < truthTable.length; j++) {
         if(truthTable[j][gDeclaredInputCount+i] == "0"){    
                 var thisMaxterm = "(";
@@ -676,7 +676,7 @@ function generateAddSumOfMintermsFormulae(truthTable) {
         if(!thisSOPIsDefined) continue;
 
         sumOfMinterms = "";
-	sumOfMinterms += ("$" + gOutputHashmap[i] + " = ");
+	sumOfMinterms += ("$" + gOutputHashmap[gDeclaredOutputCount - i - 1] + " = ");
         for(var j = 0; j < truthTable.length; j++) {
         if(truthTable[j][gDeclaredInputCount+i] == "1"){    
                 var thisMinterm = "";
@@ -725,7 +725,7 @@ function generateAddSumForm(truthTable) {
         if(!thisSOPIsDefined) continue;
 
         sumOfMinterms = "";
-        sumOfMinterms += ("$" + gOutputHashmap[i] + " = \\sum ( ");
+        sumOfMinterms += ("$" + gOutputHashmap[gDeclaredOutputCount - i - 1 ] + " = \\sum ( ");
         for(var j = 0; j < truthTable.length; j++) {
         if(truthTable[j][gDeclaredInputCount+i] == "1"){
                 var thisMinterm = "m_{" + j + "} ";
@@ -766,7 +766,7 @@ function generateAddProductForm(truthTable) {
         if(!thisSOPIsDefined) continue;
 
         sumOfMaxterms = "";
-        sumOfMaxterms += ("$" + gOutputHashmap[i] + " = \\prod ( ");
+        sumOfMaxterms += ("$" + gOutputHashmap[gDeclaredOutputCount - i - 1] + " = \\prod ( ");
         for(var j = 0; j < truthTable.length; j++) {
         if(truthTable[j][gDeclaredInputCount+i] == "0"){
                 var thisMaxterm = "M_{" + j + "} ";
