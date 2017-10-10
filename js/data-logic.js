@@ -103,7 +103,7 @@ function createAndPopulateSingleKMap(parentDiv, outputName, outputOrdinal) {
 
     for(var i = 0; i< truthTable.length ; i++) {
         //debugger;
-        karnaugh.setFnValue(i, truthTable[i][gDeclaredInputCount+outputOrdinal]);
+        karnaugh.setFnValue(i, truthTable[i][gDeclaredInputCount+gDeclaredOutputCount-1-outputOrdinal]); 
     }
     
     var solveHideButton = document.createElement("input");
