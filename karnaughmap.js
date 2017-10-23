@@ -1,9 +1,9 @@
 // Copyright (C) Thorsten Thormaehlen, Marburg, 2013, All rights reserved
 // Contact: www.thormae.de
 
-// This software is written for educational (non-commercial) purpose. 
-// There is no warranty or other guarantee of fitness for this software, 
-// it is provided solely "as is". 
+// This software is written for educational (non-commercial) purpose.
+// There is no warranty or other guarantee of fitness for this software,
+// it is provided solely "as is".
 
 
 //	TYPE: A
@@ -49,24 +49,39 @@ var __TYPEA__1VarKMapVarPositionTable = {0:0};
 var __TYPEA__2VarKMapVarPositionTable = {0:0, 1:1};
 var __TYPEA__3VarKMapVarPositionTable = {0:0, 1:1, 2:2};
 var __TYPEA__4VarKMapVarPositionTable = {0:0, 1:1, 2:2, 3:3};
-var __TYPEA__VarPositioningTables = [null, __TYPEA__1VarKMapVarPositionTable, 
-					__TYPEA__2VarKMapVarPositionTable, __TYPEA__3VarKMapVarPositionTable, __TYPEA__4VarKMapVarPositionTable];
+var __TYPEA__VarPositioningTables = [null, __TYPEA__1VarKMapVarPositionTable,
+					   __TYPEA__2VarKMapVarPositionTable,
+					   __TYPEA__3VarKMapVarPositionTable,
+					   __TYPEA__4VarKMapVarPositionTable];
 
 
 // --------------------------------------------------------------
 // --------------------------------------------------------------
 // TYPE B
 
+var __TYPEB__1VarKMapFillingLUT = {0:0, 1:1};
+var __TYPEB__2VarKMapFillingLUT = {0:0, 1:2, 2:1, 3:3};
+var __TYPEB__3VarKMapFillingLUT = {0:0, 1:3, 2:4, 3:7,
+                                   4:1, 5:2, 6:5, 7:6};
 var __TYPEB__4VarKMapFillingLUT = {0:0, 1:12, 2:3, 3:15,
 				   4:4, 5:8, 6:7, 7:11,
-				   8:1, 9:13, 10:2, 11:14, 
+				   8:1, 9:13, 10:2, 11:14,
 				   12:5, 13:9, 14:6, 15:10};
 
-var __TYPEB__KMapFillingLUTs = [null, null, null, null, __TYPEB__4VarKMapFillingLUT];
+var __TYPEB__KMapFillingLUTs = [null, __TYPEB__1VarKMapFillingLUT,
+                                      __TYPEB__2VarKMapFillingLUT,
+                                      __TYPEB__3VarKMapFillingLUT,
+                                      __TYPEB__4VarKMapFillingLUT];
 
+var __TYPEB__1VarKMapVarPositionTable = {0:0};
+var __TYPEB__2VarKMapVarPositionTable = {0:1, 1:0};
+var __TYPEB__3VarKMapVarPositionTable = {0:2, 1:1, 2:0};
 var __TYPEB__4VarKMapVarPositionTable = {0:3, 1:2, 2:1, 3:0};
 
-var __TYPEB__VarPositioningTables = [null, null, null, null, __TYPEB__4VarKMapVarPositionTable];
+var __TYPEB__VarPositioningTables = [null, __TYPEB__1VarKMapVarPositionTable,
+                                           __TYPEB__2VarKMapVarPositionTable,
+                                           __TYPEB__3VarKMapVarPositionTable,
+                                           __TYPEB__4VarKMapVarPositionTable];
 
 // --------------------------------------------------------------
 // --------------------------------------------------------------
@@ -77,7 +92,7 @@ var fillingTablesByType = { "a" : __TYPEA__KMapFillingLUTs, 'a': __TYPEA__KMapFi
 			    "b" : __TYPEB__KMapFillingLUTs, 'b': __TYPEB__KMapFillingLUTs
                           };
 
-var positioningTablesByType = { "a" : __TYPEA__VarPositioningTables, 'a': __TYPEA__VarPositioningTables, 
+var positioningTablesByType = { "a" : __TYPEA__VarPositioningTables, 'a': __TYPEA__VarPositioningTables,
 				"b" : __TYPEB__VarPositioningTables, 'b': __TYPEB__VarPositioningTables
 			      };
 
@@ -174,7 +189,7 @@ function KarnaughMapDataCtrl(qmcRef) {
         for (var yy = 0; yy < mirrorYCount; yy++) {
           var loc = xx + yy * this.fieldPerLine;
 
-          if (direction === 0) { 
+          if (direction === 0) {
             var mirrorLoc = (x + xx) + (y + (mirrorYCount - 1) - yy) * this.fieldPerLine;
             this.fields[mirrorLoc].truthmapID = this.fields[loc].truthmapID + mirrorXCount * mirrorYCount;
           } else {
@@ -238,7 +253,7 @@ function KarnaughMapDataCtrl(qmcRef) {
 
 
   /* Sets function data but does not compute the boolean expression.
-   * 
+   *
    */
   this.setFuncData = function(fieldId, val) {
     if(val != 0 && val != 1 && val != 2) {
@@ -248,7 +263,7 @@ function KarnaughMapDataCtrl(qmcRef) {
       throw "Unexpected indetermination where no indeterminations were allowed";
     }
     this.fields[fieldId].value = val;
-    
+
     //this.qmc.setInputVarNames(inputNames)//TODO
     this.qmc.data.setFuncData(this.fields[fieldId].truthmapID, this.fields[fieldId].value);
     this.qmc.data.compute();
@@ -383,7 +398,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
   this.inputNames = [];
   //debugger;
   for(var key in positioningTablesByType[selectedType][inputVarCount]){
-    this.inputNames[__TYPEB__4VarKMapVarPositionTable[key]] = kMapInputNames[key];
+    this.inputNames[positioningTablesByType[selectedType][inputVarCount][key]] = kMapInputNames[key];
   }
   this.init = function () {
 
@@ -458,7 +473,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
     data.clear();
     this.update();
   };
-  
+
   this.setDontShowResult = function (type) {
     //console.log("Updating don't show!");
     if (type > 0) {
@@ -844,7 +859,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
     var labelNum = 1;
     var labelPos = 10;
     var k = 0;
-    
+
     //TODO
     console.log("Declared: " + data.noOfVars);
     console.log("Input names: " + this.inputNames.length);
@@ -964,7 +979,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
       overlays[data.noOfVars + 1].innerHTML = "<span class='qmcMathFont'><i>"+this.outputName+"</i>&nbsp;=&nbsp;" + "<span></span>"+ "</span></p>";
     }
   };
-  
+
   function mouseOverElement(pos) {
     var selectedElement = -1;
     for (var n in uiElements) {
@@ -1035,7 +1050,7 @@ function KarnaughMap(parentDivId, parentIntermediateDivId, qmcRef, inputVarCount
 
     mx = e.pageX - offsetX;
     my = e.pageY - offsetY;
-    
+
     //console.log("Hey, element "+divId+" is at offset: ("+offsetX+","+offsetY+")");
     //console.log("your mouse is at ("+e.pageX+","+e.pageY+")");
     //console.log("and at ("+mx+","+my+") wrt to the div");
