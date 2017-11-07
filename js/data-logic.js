@@ -855,7 +855,7 @@ function tableCreate(baseTable){
             td.setAttribute("i", i);
             td.setAttribute("j", gDeclaredInputCount + j);
             if(typeof baseTable != "undefined") {
-                td.innerHTML = baseTable[i][j];
+                td.innerHTML = baseTable[i][gDeclaredInputCount+j];
             }
         }
     }
