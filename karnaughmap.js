@@ -36,23 +36,34 @@ var __TYPEA__1VarKMapFillingLUT = {0:0, 1:1};
 var __TYPEA__2VarKMapFillingLUT = {0:0, 1:2, 2:1, 3:3};
 var __TYPEA__3VarKMapFillingLUT = {0:0, 1:1, 2:4, 3:5,
 				   4:3, 5:2, 6:7, 7:6};
-var __TYPEA__4VarKMapFillingLUT = {0:0, 1:1, 2:4, 3:5,
-				   4:3, 5:2, 6:7, 7:6,
-				   8:12, 9:13, 10:8, 11:9,
+var __TYPEA__4VarKMapFillingLUT = {0:0,   1:1,   2:4,   3:5,
+				   4:3,   5:2,   6:7,   7:6,
+				   8:12,  9:13,  10:8,  11:9,
 				   12:15, 13:14, 14:11, 15:10};
+var __TYPEA__5VarKMapFillingLUT = {0:0,   1:1,   2:8,   3:9,
+                                   4:3,   5:2,   6:11,  7:10,
+                                   8:24,  9:25,  10:16, 11:17,
+                                   12:27, 13:26, 14:19, 15:18,
+                                   16:7,  17:6,  18:15, 19:14,
+                                   20:4,  21:5,  22:12, 23:13,
+                                   24:31, 25:30, 26:23, 27:22,
+                                   28:28, 29:29, 30:20, 31:21 };
 var __TYPEA__KMapFillingLUTs = [null, __TYPEA__1VarKMapFillingLUT,
 				__TYPEA__2VarKMapFillingLUT,
 				__TYPEA__3VarKMapFillingLUT,
-				__TYPEA__4VarKMapFillingLUT];
+				__TYPEA__4VarKMapFillingLUT,
+				__TYPEA__5VarKMapFillingLUT];
 
 var __TYPEA__1VarKMapVarPositionTable = {0:0};
 var __TYPEA__2VarKMapVarPositionTable = {0:0, 1:1};
 var __TYPEA__3VarKMapVarPositionTable = {0:0, 1:1, 2:2};
 var __TYPEA__4VarKMapVarPositionTable = {0:0, 1:1, 2:2, 3:3};
+var __TYPEA__5VarKMapVarPositionTable = {0:0, 1:1, 2:2, 3:3, 4:4};
 var __TYPEA__VarPositioningTables = [null, __TYPEA__1VarKMapVarPositionTable,
 					   __TYPEA__2VarKMapVarPositionTable,
 					   __TYPEA__3VarKMapVarPositionTable,
-					   __TYPEA__4VarKMapVarPositionTable];
+					   __TYPEA__4VarKMapVarPositionTable,
+                                           __TYPEA__5VarKMapVarPositionTable];
 
 
 // --------------------------------------------------------------
@@ -63,25 +74,36 @@ var __TYPEB__1VarKMapFillingLUT = {0:0, 1:1};
 var __TYPEB__2VarKMapFillingLUT = {0:0, 1:2, 2:1, 3:3};
 var __TYPEB__3VarKMapFillingLUT = {0:0, 1:3, 2:4, 3:7,
                                    4:1, 5:2, 6:5, 7:6};
-var __TYPEB__4VarKMapFillingLUT = {0:0, 1:12, 2:3, 3:15,
-				   4:4, 5:8, 6:7, 7:11,
-				   8:1, 9:13, 10:2, 11:14,
+var __TYPEB__4VarKMapFillingLUT = {0:0,  1:12, 2:3,  3:15,
+				   4:4,  5:8,  6:7,  7:11,
+				   8:1,  9:13, 10:2, 11:14,
 				   12:5, 13:9, 14:6, 15:10};
+var __TYPEB__5VarKMapFillingLUT = {0:0,   1:1,   2:24,  3:25,
+				   4:7,   5:6,   6:31,  7:30,
+				   8:8,   9:9,   10:16, 11:17,
+				   12:15, 13:14, 14:23, 15:22,
+				   16:3,  17:2,  18:27, 19:26,
+				   20:4,  21:5,   22:28, 23:29,
+				   24:11, 25:10, 26:19, 27:18,
+				   28:12, 29:13, 30:20, 31:21}
 
 var __TYPEB__KMapFillingLUTs = [null, __TYPEB__1VarKMapFillingLUT,
                                       __TYPEB__2VarKMapFillingLUT,
                                       __TYPEB__3VarKMapFillingLUT,
-                                      __TYPEB__4VarKMapFillingLUT];
+                                      __TYPEB__4VarKMapFillingLUT,
+				      __TYPEB__5VarKMapFillingLUT];
 
 var __TYPEB__1VarKMapVarPositionTable = {0:0};
 var __TYPEB__2VarKMapVarPositionTable = {0:1, 1:0};
 var __TYPEB__3VarKMapVarPositionTable = {0:2, 1:1, 2:0};
 var __TYPEB__4VarKMapVarPositionTable = {0:3, 1:2, 2:1, 3:0};
+var __TYPEB__5VarKMapVarPositionTable = {0:0, 1:3, 2:4, 3:1, 4:2};
 
 var __TYPEB__VarPositioningTables = [null, __TYPEB__1VarKMapVarPositionTable,
                                            __TYPEB__2VarKMapVarPositionTable,
                                            __TYPEB__3VarKMapVarPositionTable,
-                                           __TYPEB__4VarKMapVarPositionTable];
+                                           __TYPEB__4VarKMapVarPositionTable,
+					   __TYPEB__5VarKMapVarPositionTable];
 
 // --------------------------------------------------------------
 // --------------------------------------------------------------

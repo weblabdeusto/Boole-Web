@@ -912,7 +912,7 @@ function triggerTruthTableRefresh(){
 
 function setupInputOutputControlListeners() {
     var max_out_fields = 10; //maximum outputs to the system
-    var max_in_fields = 4;   //maximum inputs to the system
+    var max_in_fields = 5;   //maximum inputs to the system
     var in_wrapper = $(".input_fields_wrap");  //document.getElementById("add_input_wrapper");
     var out_wrapper = $(".input_fields_wrap"); //document.getElementById("add_output_wrapper");
     
