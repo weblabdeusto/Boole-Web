@@ -1093,6 +1093,7 @@ function createLinkedVHDL(){
     var ins = [];
     var outs = [];
     var outputToExprHashmap = {};
+    var availablePorts = JSON.parse(JSON.stringify(gPorts));
 
     for(var i=0; i<Object.keys(gInputHashmap).length; i++){
         ins[i] = gInputHashmap[i];
@@ -1101,8 +1102,8 @@ function createLinkedVHDL(){
         outs[i] = gOutputHashmap[i];
     }
 
-    for(var i = 0; i<gPorts.length; i++) {
-        processPortForSelfModifications(gPorts[i]);
+    for(var i = 0; i<availablePorts.length; i++) {
+        processPortForSelfModifications(availablePorts[i]);
     }
 
     //Inputs in the hashmap are to be declared as inputs in VHDL. Same applies for outputs and inouts.
@@ -1114,9 +1115,9 @@ function createLinkedVHDL(){
     }
 
     //Now inputs/outputs that MUST be declared and weren't used must also be transferred.
-    for(var i = 0; i<gPorts.length; i++) {
-        var currentPortName = gPorts[i].portName;
-        if(gPorts[i].InOutIfUnused && !(currentPortName in inPorts || currentPortName in outPorts || currentPortName in inoutPorts )){
+    for(var i = 0; i<availablePorts.length; i++) {
+        var currentPortName = availablePorts[i].portName;
+        if(availablePorts[i].InOutIfUnused && !(currentPortName in inPorts || currentPortName in outPorts || currentPortName in inoutPorts )){
             inoutPorts.add(currentPortName);
         }
     }
@@ -1126,12 +1127,12 @@ function createLinkedVHDL(){
         outputToExprHashmap[gCorrespondenceHashmap[outs[i]]] = substituteByCorrespondenceInFormula(gBooleanExpressionStrings[i], ins, outs)
     }
 
-    for(var i = 0; i<gPorts.length; i++){
-        if(gPorts[i].alwaysGenerate){
-            var portType = gPorts[i].type;
-            if(portType == "in") inPorts.add(gPorts[i].portName);
-            else if(portType == "inout") inoutPorts.add(gPorts[i].portName);
-            else if(portType == "out") outPorts.add(gPorts[i].portName);
+    for(var i = 0; i<availablePorts.length; i++){
+        if(availablePorts[i].alwaysGenerate){
+            var portType = availablePorts[i].type;
+            if(portType == "in") inPorts.add(availablePorts[i].portName);
+            else if(portType == "inout") inoutPorts.add(availablePorts[i].portName);
+            else if(portType == "out") outPorts.add(availablePorts[i].portName);
         }
     }
 
