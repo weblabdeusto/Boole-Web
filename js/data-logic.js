@@ -92,20 +92,20 @@ function createAndPopulateSingleKMap(parentDiv, outputName, outputOrdinal) {
     parentDiv.appendChild(topDiv);
     // newDiv.className =  something?
 
-    // Create the KMAP and the underlying QMC. The first parameter to the 
+    // Create the KMAP and the underlying QMC. The first parameter to the
     // QMC constructor should only be a existing div when debugging.
     var qmc = new QuineMcCluskey("thiswillneverexist", 2, 4, 0);
     qmc.init();
-    var karnaugh = new KarnaughMap("vk-"+outputName+"-div", "vk-"+outputName+"-intdiv", qmc, gDeclaredInputCount, outputName, gInputHashmap);    
+    var karnaugh = new KarnaughMap("vk-"+outputName+"-div", "vk-"+outputName+"-intdiv", qmc, gDeclaredInputCount, outputName, gInputHashmap);
     karnaugh.init();
     karnaugh.allowDontCares(1);
     karnaugh.setDontShowResult(1);
 
     for(var i = 0; i< truthTable.length ; i++) {
         //debugger;
-        karnaugh.setFnValue(i, truthTable[i][gDeclaredInputCount+gDeclaredOutputCount-1-outputOrdinal]); 
+        karnaugh.setFnValue(i, truthTable[i][gDeclaredInputCount+gDeclaredOutputCount-1-outputOrdinal]);
     }
-    
+
     var solveHideButton = document.createElement("input");
     solveHideButton.type = "button";
     solveHideButton.value = "Resolver"
@@ -142,8 +142,8 @@ function placeInSingleCellTable(doc, html) {
     //Produce an autotable table from the fake table
     var res = doc.autoTableHtmlToJson(htmlElement);
 
-    //Render the autotable and place it in the document, with 
-    doc.autoTable(res.columns, res.rows, 
+    //Render the autotable and place it in the document, with
+    doc.autoTable(res.columns, res.rows,
     {
         startY: nextY,
         pageBreak: 'auto',
@@ -154,7 +154,7 @@ function placeInSingleCellTable(doc, html) {
 
 function getStatementPrintableHtml() {
     var ret = "";
-    
+
     //Actual statement text
     ret+="<h3>Enunciado</h3>";
     ret+=document.getElementById("panel-enunciado-capturado").innerHTML;
@@ -197,7 +197,7 @@ function getTruthTablePrintableHtml() {
 }
 
 function centeredText(doc, yOffset, text) {
-    var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(text) * doc.internal.getFontSize() / 2); 
+    var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(text) * doc.internal.getFontSize() / 2);
     doc.text(text, xOffset, yOffset);
 }
 
@@ -232,7 +232,7 @@ function printAll() {
     nextY+=sectionHeadingSize/2;
 
     doc.fromHTML(document.getElementById('panel-enunciado-capturado').innerHTML, nextX, nextY, {
-        'width': doc.internal.pageSize.width - 2 * nextX, 
+        'width': doc.internal.pageSize.width - 2 * nextX,
         'elementHandlers': specialElementHandlers
     });
     nextY += 0.75 * statementHeight + interSectionSpacing;
@@ -257,12 +257,12 @@ function printAll() {
         }
     }
     for(var i = 0; i< Object.keys(gOutputHashmap).length; i++) {
-        outputs+=gOutputHashmap[i]; 
+        outputs+=gOutputHashmap[i];
         if(i < Object.keys(gOutputHashmap).length - 1){
             outputs+=",";
         }
     }
-    
+
     doc.setFontSize(defaultFontSize);
     doc.setFontType("bold");
     var inY, outY;
@@ -338,8 +338,8 @@ function renderSingleSvgElement(doc, startX, startY, sizeX, sizeY, svgElement) {
     svgElementClone = svgElement.cloneNode(true)
     svgElementClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     var fakeDiv =  document.createElement("div");
-    fakeDiv.appendChild(svgElementClone);      
-    
+    fakeDiv.appendChild(svgElementClone);
+
     var svg = fakeDiv.innerHTML;
 
     if (svg){
@@ -367,14 +367,14 @@ function renderVKDiagramsInGrid(doc, startX, startY) {
     var offsetY = 0;
     var pageHeight = Math.floor(doc.internal.pageSize.height);
     var pageWidth = Math.floor(doc.internal.pageSize.width);
-    
+
     //One can safely assume that all VK elements are the same height/width, since they have the same inputs/outputs.
     //Therefore, use the first to calculate margins and related dimensions.
 
     var firstSvgContainer = document.getElementById("vk-" + gOutputHashmap[0] + "-div");
     var firstVKSvg = firstSvgContainer.firstChild;
     var firstVKSvgHeight = Math.floor(firstVKSvg.getAttribute("height"))*0.75;
-    var firstVKSvgWidth = Math.floor(firstVKSvg.getAttribute("width"))*0.75; 
+    var firstVKSvgWidth = Math.floor(firstVKSvg.getAttribute("width"))*0.75;
 
     //Assuming two VK diagrams per row (two columns), calculate margins.
     //First calculate total margin (both sides plus centre) and divide it between sides and
@@ -389,7 +389,7 @@ function renderVKDiagramsInGrid(doc, startX, startY) {
             nextY = 36;
             doc.addPage();
         }
-        
+
         offsetX = margin;
         for(var j = 0 ; j < 2 ; j++){
             var currentSvgContainer = document.getElementById("vk-" + gOutputHashmap[2*i + j] + "-div");
@@ -445,10 +445,10 @@ function renderCircuitDiagramsInGrid(doc, startX, startY) {
         var thisWidth = Math.floor(thisSvg.getAttribute("width"))*0.75;
 
         if(thereIsAPair) {
-            var nextHeight = Math.floor(nextSvg.getAttribute("height"))*0.75;      
+            var nextHeight = Math.floor(nextSvg.getAttribute("height"))*0.75;
             var nextWidth = Math.floor(nextSvg.getAttribute("width"))*0.75;
         }
-      
+
         //Check if this pair will overflow the page. If so, get a new page and start drawing there
         var maxHeight = Math.max(thisHeight, nextHeight);
         if(nextY + maxHeight > pageHeight) {
@@ -460,7 +460,7 @@ function renderCircuitDiagramsInGrid(doc, startX, startY) {
         //margin will be 70% of the total space not taken by circuits divided by two. The centre space will
         //be the remaining 30%.
 
-        var totalSpaceTmp = pageWidth - (thisWidth+nextWidth);        
+        var totalSpaceTmp = pageWidth - (thisWidth+nextWidth);
         if(thereIsAPair) {
             margin = (totalSpaceTmp*0.70)/2;
             centerSpace = totalSpaceTmp*0.30;
@@ -470,15 +470,15 @@ function renderCircuitDiagramsInGrid(doc, startX, startY) {
             centerSpace = 0;
         }
         renderSingleSvgElement(doc, nextX+margin, nextY, thisWidth, thisHeight, thisSvg);
-        
+
         if(thereIsAPair) {
-            renderSingleSvgElement(doc, nextX+margin+thisWidth+centerSpace, nextY, nextWidth, nextHeight, nextSvg);        
+            renderSingleSvgElement(doc, nextX+margin+thisWidth+centerSpace, nextY, nextWidth, nextHeight, nextSvg);
         }
 
         nextY += Math.max(thisHeight, nextHeight);
     }
     return nextY;
-} 
+}
 
 function isInput(string) {
     for(var i = 0; i<Object.keys(gInputHashmap).length; i++) {
@@ -529,7 +529,7 @@ function evaluateOutputStatus(elementid) {
     $(".outputform").each(function() {
         gOutputHashmap[index++] = this.value;
     });
-    
+
     gDefinedOutputCount = 0;
     gDuplicatedOutputs = false; //Assume correct;
 
@@ -558,7 +558,7 @@ function evaluateInputOutputStatus() {
 
     for(var key in gInputHashmap)ins.push(gInputHashmap[key]);
     for(var key in gOutputHashmap)outs.push(gOutputHashmap[key]);
-    
+
     var intersection = ins.filter(function (e) {
         return outs.indexOf(e) > -1;
     });
@@ -625,7 +625,7 @@ function generateAddProductOfMaxtermsFormulae(truthtable) {
         prodOfMaxterms = "";
 	prodOfMaxterms += ("$" + gOutputHashmap[gDeclaredOutputCount - i - 1] + " = ");
         for(var j = 0; j < truthTable.length; j++) {
-        if(truthTable[j][gDeclaredInputCount+i] == "0"){    
+        if(truthTable[j][gDeclaredInputCount+i] == "0"){
                 var thisMaxterm = "(";
                 for (var k = gDeclaredInputCount-1 ; k >= 0 ; k--) {
                     var thisVar = gInputHashmap[k];
@@ -652,7 +652,7 @@ function generateAddProductOfMaxtermsFormulae(truthtable) {
             prodOfMaxterms = prodOfMaxterms.substring(0, prodOfMaxterms.length - "\\cdot".length - 1);
         }
         prodOfMaxterms += "$";
-        console.log("One of the products of maxterms is " + prodOfMaxterms);        
+        console.log("One of the products of maxterms is " + prodOfMaxterms);
         addFormulaToPage(prodOfMaxterms)
     }
 }
@@ -678,7 +678,7 @@ function generateAddSumOfMintermsFormulae(truthTable) {
         sumOfMinterms = "";
 	sumOfMinterms += ("$" + gOutputHashmap[gDeclaredOutputCount - i - 1] + " = ");
         for(var j = 0; j < truthTable.length; j++) {
-        if(truthTable[j][gDeclaredInputCount+i] == "1"){    
+        if(truthTable[j][gDeclaredInputCount+i] == "1"){
                 var thisMinterm = "";
                 for (var k = gDeclaredInputCount-1 ; k>=0 ; k--) {
                     var thisVar = gInputHashmap[k];
@@ -701,7 +701,7 @@ function generateAddSumOfMintermsFormulae(truthTable) {
         sumOfMinterms = sumOfMinterms.substring(0, sumOfMinterms.length - 1);
         }
         sumOfMinterms += "$";
-        console.log("One of the sums of minterms is " + sumOfMinterms);        
+        console.log("One of the sums of minterms is " + sumOfMinterms);
         addFormulaToPage(sumOfMinterms)
     }
 }
@@ -736,7 +736,7 @@ function generateAddSumForm(truthTable) {
                 }
             }
         }
-        
+
         if(sumOfMinterms.charAt(sumOfMinterms.length - 1) == ","){
             sumOfMinterms = sumOfMinterms.substring(0, sumOfMinterms.length - 1);
         }
@@ -777,7 +777,7 @@ function generateAddProductForm(truthTable) {
                 }
             }
         }
-        
+
         if(sumOfMaxterms.charAt(sumOfMaxterms.length - 1) == ","){
             sumOfMaxterms = sumOfMaxterms.substring(0, sumOfMaxterms.length - 1);
         }
@@ -809,12 +809,12 @@ function tableCreate(baseTable){
     tbl  = document.createElement('table');
     tbl.id = "tablaVerdad";
     tbl.setAttribute("align", "center");
-    
+
     //Initialize the structure that will hold data
     //debugger;
     if(typeof baseTable == "undefined"){
         truthTable = new Array(gDeclaredInputCount);
-    }    
+    }
 
     var header = tbl.insertRow();
     for(var i = gDeclaredInputCount - 1; i>=0 ; i--){
@@ -915,7 +915,7 @@ function setupInputOutputControlListeners() {
     var max_in_fields = 5;   //maximum inputs to the system
     var in_wrapper = $(".input_fields_wrap");  //document.getElementById("add_input_wrapper");
     var out_wrapper = $(".input_fields_wrap"); //document.getElementById("add_output_wrapper");
-    
+
     addIndividualInputDataListener("input0");
     addIndividualOutputDataListener("output0");
 
@@ -958,13 +958,13 @@ function setupInputOutputControlListeners() {
         }
     });
 
-    
+
     $(out_wrapper).on("click",".remove_input", function(e){ //user click on remove text
         e.preventDefault(); $(this).parent('div').remove(); delete gInputHashmap[inputs]; inputs--; gDeclaredInputCount--;
     })
 
     $(in_wrapper).on("click",".remove_output", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); delete gOutputHashmap[outputs]; outputs--; gDeclaredOutputCount--; 
+        e.preventDefault(); $(this).parent('div').remove(); delete gOutputHashmap[outputs]; outputs--; gDeclaredOutputCount--;
     })
 }
 
@@ -980,7 +980,7 @@ function generateVHDLPorts(inports, inoutports, outports) {
     var total_ports = 0;
     if(typeof inports != "undefined") total_ports += inports.length;
     if(typeof inoutports != "undefined") total_ports += inoutports.length;
-    if(typeof outports != "undefined") total_ports += outports.length;    
+    if(typeof outports != "undefined") total_ports += outports.length;
 
     var port_count = 0;
 
@@ -1022,27 +1022,27 @@ function generateVHDLPorts(inports, inoutports, outports) {
 function generateVHDLProgramForExpressions(outputToBooleanExpressionHashmap, portCorrespondence, entityName, inoutports, inports, outports){
     var ret = "";
 
-    if(typeof inoutports == "undefined" && 
+    if(typeof inoutports == "undefined" &&
        (typeof inports == "undefined" ) || (typeof outports == "undefined")){
        throw "VHDL generation error: Ports misdefined.";
-    }    
+    }
 
     ret +=               "library IEEE;\n";
     ret +=               "use IEEE.STD_LOGIC_1164.ALL;\n";
     ret +=               "use IEEE.STD_LOGIC_ARITH.ALL;\n";
     ret +=               "use IEEE.STD_LOGIC_UNSIGNED.ALL;\n";
-    
+
     ret +=               "\n";
     ret +=               "\n";
     ret +=               "entity " + entityName + " is\n";
     ret +=               "\t";
     ret +=                   "Port (\n";
-    
+
     ret+= generateVHDLPorts(inports, inoutports, outports);
 
     ret +=               "\t\t";
     ret +=                       ");\n";
-    ret +=               "end "+ entityName + ";\n";                         
+    ret +=               "end "+ entityName + ";\n";
     ret +=               "\n\n";
 
     ret +=               "architecture "+gSystemArchitectureType+" of " + entityName + " is\n";
@@ -1075,7 +1075,7 @@ function createUnlinkedVHDL(){
         outputToExprHashmap[gOutputHashmap[i]] = gBooleanExpressionStrings[i];
     }
 
-    vhdlCode = generateVHDLProgramForExpressions(outputToExprHashmap, 
+    vhdlCode = generateVHDLProgramForExpressions(outputToExprHashmap,
     				                 undefined,
                                                  gSystemTitle.replace(/ /g,''),
                                                  undefined,
@@ -1108,7 +1108,7 @@ function createLinkedVHDL(){
 
     //Inputs in the hashmap are to be declared as inputs in VHDL. Same applies for outputs and inouts.
     for (var key in gCorrespondenceHashmap) {
-        var portType = getExternallyDefinedPortType(gCorrespondenceHashmap[key]);
+        var portType = getExternallyDefinedPortType(gCorrespondenceHashmap[key], availablePorts);
         if(portType == "in") inPorts.add(gCorrespondenceHashmap[key]);
         else if(portType == "inout") inoutPorts.add(gCorrespondenceHashmap[key]);
         else if(portType == "out") outPorts.add(gCorrespondenceHashmap[key]);
@@ -1217,10 +1217,10 @@ function getPortByDescriptiveText(portText) {
     }
 }
 
-function getExternallyDefinedPortType(portName) {
-    for(var i = 0; i< gPorts.length; i++) {
-        if(gPorts[i].portName == portName)
-            return gPorts[i].type;
+function getExternallyDefinedPortType(portName, portSet) {
+    for(var i = 0; i< portSet.length; i++) {
+        if(portSet[i].portName == portName)
+            return portSet[i].type;
     }
 }
 
@@ -1261,7 +1261,7 @@ function serializeCombinationalSystemToJSON() {
     obj["outputCountIsEditable"] = true;
     obj["inputsAreModifiable"] = true;
     obj["outputsAreModifiable"] = true;
-    obj["truthTable"] = truthTable; 
+    obj["truthTable"] = truthTable;
 
     //debugger;
     return JSON.stringify(obj);
